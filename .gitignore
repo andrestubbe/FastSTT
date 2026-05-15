@@ -1,0 +1,16 @@
+target/
+build/
+*.class
+*.dll
+*.lib
+*.exp
+*.obj
+*.zip
+whisper_temp.zip
+whisper_extract/
+.idea/
+*.iml
+.vscode/
+bin/
+models/*.bin
+faststt.properties

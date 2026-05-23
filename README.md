@@ -1,4 +1,4 @@
-﻿# FastSTT â€” Ultra-Fast Native Speech-to-Text for Java [v0.1.0]
+﻿# FastSTT — Ultra-Fast Native Speech-to-Text for Java [v0.1.0]
 
 **A high-performance native speech-to-text module for the FastJava ecosystem. Ultra-low latency via JNI-based Whisper.cpp and real-time Cloud streaming.**
 
@@ -18,10 +18,10 @@
 - [License](#license)
 
 ## Features
-- **ðŸŽ™ï¸ Local Whisper**: Native C++ integration via whisper.cpp for 100% offline privacy.
-- **âš¡ Cloud Streaming**: Real-time WebSocket integration with Deepgram and OpenAI.
-- **ðŸ“¦ Zero-Copy**: Audio buffers are passed directly via JNI from FastAudioCapture.
-- **ðŸ› ï¸ Integrated Installer**: Built-in downloader for GGML models (Tiny, Base, Small).
+- **🎙️ Local Whisper**: Native C++ integration via whisper.cpp for 100% offline privacy.
+- **⚡ Cloud Streaming**: Real-time WebSocket integration with Deepgram and OpenAI.
+- **📦 Zero-Copy**: Audio buffers are passed directly via JNI from FastAudioCapture.
+- **🛠️ Integrated Installer**: Built-in downloader for GGML models (Tiny, Base, Small).
 
 
 ## Installation
@@ -87,7 +87,7 @@ FastSTT comes with a built-in installer to help you download and manage Whisper 
 ---
 
 ## License
-MIT License â€” See [LICENSE](LICENSE) for details.
+MIT License — See [LICENSE](LICENSE) for details.
 
 ---
-**Part of the FastJava Ecosystem** â€” *Making the JVM faster.*
+**Part of the FastJava Ecosystem** — *Making the JVM faster.*

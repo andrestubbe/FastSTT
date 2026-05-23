@@ -1,4 +1,4 @@
-# FastSTT — Ultra-Fast Native Speech-to-Text for Java [v0.1.0]
+﻿# FastSTT â€” Ultra-Fast Native Speech-to-Text for Java [v0.1.0]
 
 **A high-performance native speech-to-text module for the FastJava ecosystem. Ultra-low latency via JNI-based Whisper.cpp and real-time Cloud streaming.**
 
@@ -18,10 +18,10 @@
 - [License](#license)
 
 ## Features
-- **🎙️ Local Whisper**: Native C++ integration via whisper.cpp for 100% offline privacy.
-- **⚡ Cloud Streaming**: Real-time WebSocket integration with Deepgram and OpenAI.
-- **📦 Zero-Copy**: Audio buffers are passed directly via JNI from FastAudioCapture.
-- **🛠️ Integrated Installer**: Built-in downloader for GGML models (Tiny, Base, Small).
+- **ðŸŽ™ï¸ Local Whisper**: Native C++ integration via whisper.cpp for 100% offline privacy.
+- **âš¡ Cloud Streaming**: Real-time WebSocket integration with Deepgram and OpenAI.
+- **ðŸ“¦ Zero-Copy**: Audio buffers are passed directly via JNI from FastAudioCapture.
+- **ðŸ› ï¸ Integrated Installer**: Built-in downloader for GGML models (Tiny, Base, Small).
 
 
 ## Installation
@@ -29,7 +29,7 @@
 ### Option 1: Maven (Recommended)
 Add the JitPack repository and the dependencies to your `pom.xml`:
 
-`xml
+```xml
 <repositories>
     <repository>
         <id>jitpack.io</id>
@@ -44,6 +44,7 @@ Add the JitPack repository and the dependencies to your `pom.xml`:
         <artifactId>faststt</artifactId>
         <version>v0.1.0</version>
     </dependency>
+
     <!-- FastCore (Required Native Loader) -->
     <dependency>
         <groupId>com.github.andrestubbe</groupId>
@@ -51,19 +52,19 @@ Add the JitPack repository and the dependencies to your `pom.xml`:
         <version>v0.1.0</version>
     </dependency>
 </dependencies>
-`
+```
 
 ### Option 2: Gradle (via JitPack)
-`groovy
+```groovy
 repositories {
     maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'com.github.andrestubbe:.1.0'
+    implementation 'com.github.andrestubbe:faststt:v0.1.0'
     implementation 'com.github.andrestubbe:fastcore:v0.1.0'
 }
-`
+```
 
 ### Option 3: Direct Download (No Build Tool)
 Download the latest JARs directly to add them to your classpath:
@@ -86,7 +87,7 @@ FastSTT comes with a built-in installer to help you download and manage Whisper 
 ---
 
 ## License
-MIT License — See [LICENSE](LICENSE) for details.
+MIT License â€” See [LICENSE](LICENSE) for details.
 
 ---
-**Part of the FastJava Ecosystem** — *Making the JVM faster.*
+**Part of the FastJava Ecosystem** â€” *Making the JVM faster.*

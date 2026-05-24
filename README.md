@@ -1,6 +1,4 @@
-﻿# FastSTT — Ultra-Fast Native Speech-to-Text for Java [v0.1.0]
-
-**A high-performance native speech-to-text module for the FastJava ecosystem. Ultra-low latency via JNI-based Whisper.cpp and real-time Cloud streaming.**
+﻿# FastSTT v0.1.0 [ALPHA] — Ultra-Fast Native Speech-to-Text for Java
 
 [![Status](https://img.shields.io/badge/status-v0.1.0-brightgreen.svg)](https://github.com/andrestubbe/FastSTT/releases/tag/v0.1.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -8,29 +6,42 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010+-lightgrey.svg)]()
 [![JitPack](https://img.shields.io/badge/JitPack-ready-green.svg)](https://jitpack.io/#andrestubbe)
 
+**⚡ A high-performance native speech-to-text module for the FastJava ecosystem. Ultra-low latency via JNI-based
+Whisper.cpp and real-time Cloud streaming.**
+
+**FastSTT** provides professional-grade speech recognition with minimal latency. It unified local high-performance
+processing (Whisper) with lightning-fast cloud backends (Deepgram/OpenAI) under a single Java API.
+
+[![FastKeyboard Showcase](docs/screenshot.png)](https://www.youtube.com/watch?v=BZsqQl7WqWk)
+
 ---
 
-**FastSTT** provides professional-grade speech recognition with minimal latency. It unified local high-performance processing (Whisper) with lightning-fast cloud backends (Deepgram/OpenAI) under a single Java API.
-
 ## Table of Contents
+
 - [Features](#features)
 - [Installation](#installation)
 - [Try the Installer](#try-the-installer)
 - [License](#license)
 
+---
+
 ## Features
+
 - **🎙️ Local Whisper**: Native C++ integration via whisper.cpp for 100% offline privacy.
 - **⚡ Cloud Streaming**: Real-time WebSocket integration with Deepgram and OpenAI.
 - **📦 Zero-Copy**: Audio buffers are passed directly via JNI from FastAudioCapture.
 - **🛠️ Integrated Installer**: Built-in downloader for GGML models (Tiny, Base, Small).
 
+---
 
 ## Installation
 
 ### Option 1: Maven (Recommended)
+
 Add the JitPack repository and the dependencies to your `pom.xml`:
 
 ```xml
+
 <repositories>
     <repository>
         <id>jitpack.io</id>
@@ -39,23 +50,24 @@ Add the JitPack repository and the dependencies to your `pom.xml`:
 </repositories>
 
 <dependencies>
-    <!-- FastSTT Library -->
-    <dependency>
-        <groupId>com.github.andrestubbe</groupId>
-        <artifactId>faststt</artifactId>
-        <version>v0.1.0</version>
-    </dependency>
+<!-- FastSTT Library -->
+<dependency>
+    <groupId>com.github.andrestubbe</groupId>
+    <artifactId>faststt</artifactId>
+    <version>v0.1.0</version>
+</dependency>
 
-    <!-- FastCore (Required Native Loader) -->
-    <dependency>
-        <groupId>com.github.andrestubbe</groupId>
-        <artifactId>fastcore</artifactId>
-        <version>v0.1.0</version>
-    </dependency>
+<!-- FastCore (Required Native Loader) -->
+<dependency>
+    <groupId>com.github.andrestubbe</groupId>
+    <artifactId>fastcore</artifactId>
+    <version>v0.1.0</version>
+</dependency>
 </dependencies>
 ```
 
 ### Option 2: Gradle (via JitPack)
+
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
@@ -68,27 +80,44 @@ dependencies {
 ```
 
 ### Option 3: Direct Download (No Build Tool)
+
 Download the latest JARs directly to add them to your classpath:
 
-1. 📦 **[faststt-v0.1.0.jar](https://github.com/andrestubbe/FastSTT/releases/download/v0.1.0/faststt-v0.1.0.jar)** (The Core Library)
-2. ⚙️ **[fastcore-v0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/v0.1.0/fastcore-v0.1.0.jar)** (The Mandatory Native Loader)
+1. 📦 **[faststt-v0.1.0.jar](https://github.com/andrestubbe/FastSTT/releases/download/v0.1.0/faststt-v0.1.0.jar)** (The
+   Core Library)
+2. ⚙️ **[fastcore-v0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/v0.1.0/fastcore-v0.1.0.jar)** (
+   The Mandatory Native Loader)
 
 > [!IMPORTANT]
 > All JARs must be in your classpath for the native JNI calls to function correctly.
+
+---
 
 
 ## Try the Installer
 
 FastSTT comes with a built-in installer to help you download and manage Whisper models.
 
-1.  Clone this repository.
-2.  Run `run-installer.bat`.
-3.  Choose **Option 1** to download a Whisper model (e.g., `base.bin`).
+1. Clone this repository.
+2. Run `run-installer.bat`.
+3. Choose **Option 1** to download a Whisper model (e.g., `base.bin`).
 
 ---
 
 ## License
+
 MIT License — See [LICENSE](LICENSE) for details.
 
 ---
+
+## Related Projects
+
+- [FastCore](https://github.com/andrestubbe/FastCore) — Native Library Loader for Java
+- [FastKeyboard](https://github.com/andrestubbe/FastKeyboard) — High-performance RawInput engine
+- [FastTheme](https://github.com/andrestubbe/FastTheme) — Advanced UI styling engine
+
+---
 **Part of the FastJava Ecosystem** — *Making the JVM faster.*
+
+
+

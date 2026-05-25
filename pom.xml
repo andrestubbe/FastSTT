@@ -39,7 +39,7 @@
         <dependency>
             <groupId>io.github.andrestubbe</groupId>
             <artifactId>fastaudiocapture</artifactId>
-            <version>1.0.0</version>
+            <version>v0.1.0</version>
         </dependency>
 
         <dependency>

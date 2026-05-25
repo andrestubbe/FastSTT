@@ -113,11 +113,13 @@ MIT License — See [LICENSE](LICENSE) for details.
 ## Related Projects
 
 - [FastCore](https://github.com/andrestubbe/FastCore) — Native Library Loader for Java
-- [FastKeyboard](https://github.com/andrestubbe/FastKeyboard) — High-performance RawInput engine
-- [FastTheme](https://github.com/andrestubbe/FastTheme) — Advanced UI styling engine
+- [FastAudioCapture](https://github.com/andrestubbe/FastAudioCapture) — High-Performance Native Audio Capture for Java
+- [FastAudioPlayer](https://github.com/andrestubbe/FastAudioPlayer) — Native Windows WASAPI Audio Playback for Java
+- [FastTTS](https://github.com/andrestubbe/FastTTS) — High-Performance Native Windows TTS API for Java
+- [FastWakeWord](https://github.com/andrestubbe/FastWakeWord)
 
 ---
-**Part of the FastJava Ecosystem** — *Making the JVM faster.*
+**Part of the FastJava Ecosystem** — *Making the JVM faster. Small package. Maximum speed. Zero bloat. 🚀📋*
 
 
 

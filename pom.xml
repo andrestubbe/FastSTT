@@ -32,14 +32,14 @@
         <dependency>
             <groupId>io.github.andrestubbe</groupId>
             <artifactId>fastcore</artifactId>
-            <version>v0.1.0</version>
+            <version>0.1.0</version>
         </dependency>
         
         <!-- FastAudioCapture - For direct audio input -->
         <dependency>
             <groupId>io.github.andrestubbe</groupId>
             <artifactId>fastaudiocapture</artifactId>
-            <version>v0.1.0</version>
+            <version>0.1.0</version>
         </dependency>
 
         <dependency>

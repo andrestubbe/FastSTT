@@ -7,7 +7,7 @@
 
     <groupId>com.github.andrestubbe</groupId>
     <artifactId>FastSTT</artifactId>
-    <version>0.1.0</version>
+    <version>v0.1.0</version>
     <packaging>jar</packaging>
 
     <name>FastSTT</name>
@@ -31,15 +31,15 @@
         <!-- FastCore - Unified JNI loader -->
         <dependency>
             <groupId>io.github.andrestubbe</groupId>
-            <artifactId>fastcore</artifactId>
-            <version>0.1.0</version>
+            <artifactId>FastCore</artifactId>
+            <version>v0.1.0</version>
         </dependency>
         
         <!-- FastAudioCapture - For direct audio input -->
         <dependency>
             <groupId>io.github.andrestubbe</groupId>
-            <artifactId>fastaudiocapture</artifactId>
-            <version>0.1.0</version>
+            <artifactId>FastAudioCapture</artifactId>
+            <version>v0.1.0</version>
         </dependency>
 
         <dependency>

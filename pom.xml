@@ -7,7 +7,7 @@
 
     <groupId>com.github.andrestubbe</groupId>
     <artifactId>FastSTT</artifactId>
-    <version>v0.1.0</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
 
     <name>FastSTT</name>
@@ -32,14 +32,14 @@
         <dependency>
             <groupId>io.github.andrestubbe</groupId>
             <artifactId>FastCore</artifactId>
-            <version>v0.1.0</version>
+            <version>0.1.0</version>
         </dependency>
         
         <!-- FastAudioCapture - For direct audio input -->
         <dependency>
             <groupId>io.github.andrestubbe</groupId>
             <artifactId>FastAudioCapture</artifactId>
-            <version>v0.1.0</version>
+            <version>0.1.0</version>
         </dependency>
 
         <dependency>

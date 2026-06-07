@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
@@ -30,14 +30,14 @@
     <dependencies>
         <!-- FastCore - Unified JNI loader -->
         <dependency>
-            <groupId>io.github.andrestubbe</groupId>
+            <groupId>com.github.andrestubbe</groupId>
             <artifactId>FastCore</artifactId>
             <version>0.1.0</version>
         </dependency>
         
         <!-- FastAudioCapture - For direct audio input -->
         <dependency>
-            <groupId>io.github.andrestubbe</groupId>
+            <groupId>com.github.andrestubbe</groupId>
             <artifactId>FastAudioCapture</artifactId>
             <version>0.1.0</version>
         </dependency>

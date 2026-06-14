@@ -1,4 +1,4 @@
-# FastSTT 0.1.0 [ALPHA-2026-06] — � Ultra-Fast Native Speech-to-Text for Java
+﻿# FastSTT 0.1.0 [ALPHA] — Ultra-Fast Native Speech-to-Text for Java
 
 [![Status](https://img.shields.io/badge/status-0.1.0-brightgreen.svg)](https://github.com/andrestubbe/FastSTT/releases/tag/0.1.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -6,7 +6,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010+-lightgrey.svg)]()
 [![JitPack](https://img.shields.io/badge/JitPack-ready-green.svg)](https://jitpack.io/#andrestubbe/FastSTT)
 
-**? A high-performance native speech-to-text module for the FastJava ecosystem. Ultra-low latency via JNI-based
+**⚡ A high-performance native speech-to-text module for the FastJava ecosystem. Ultra-low latency via JNI-based
 Whisper.cpp and real-time Cloud streaming.**
 
 **FastSTT** provides professional-grade speech recognition with minimal latency. It unified local high-performance
@@ -27,10 +27,10 @@ processing (Whisper) with lightning-fast cloud backends (Deepgram/OpenAI) under 
 
 ## Features
 
-- **??? Local Whisper**: Native C++ integration via whisper.cpp for 100% offline privacy.
-- **? Cloud Streaming**: Real-time WebSocket integration with Deepgram and OpenAI.
-- **?? Zero-Copy**: Audio buffers are passed directly via JNI from FastAudioCapture.
-- **??? Integrated Installer**: Built-in downloader for GGML models (Tiny, Base, Small).
+- **🎙️ Local Whisper**: Native C++ integration via whisper.cpp for 100% offline privacy.
+- **⚡ Cloud Streaming**: Real-time WebSocket integration with Deepgram and OpenAI.
+- **📦 Zero-Copy**: Audio buffers are passed directly via JNI from FastAudioCapture.
+- **🛠️ Integrated Installer**: Built-in downloader for GGML models (Tiny, Base, Small).
 
 ---
 
@@ -77,9 +77,9 @@ dependencies {
 
 Download the latest JARs directly to add them to your classpath:
 
-1. ?? **[faststt-0.1.0.jar](https://github.com/andrestubbe/FastSTT/releases/download/0.1.0/faststt-0.1.0.jar)** (The
+1. 📦 **[faststt-0.1.0.jar](https://github.com/andrestubbe/FastSTT/releases/download/0.1.0/faststt-0.1.0.jar)** (The
    Core Library)
-2. ?? **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (
+2. ⚙️ **[fastcore-0.1.0.jar](https://github.com/andrestubbe/FastCore/releases/download/0.1.0/fastcore-0.1.0.jar)** (
    The Mandatory Native Loader)
 
 ---
@@ -96,20 +96,20 @@ FastSTT comes with a built-in installer to help you download and manage Whisper 
 
 ## License
 
-MIT License � See [LICENSE](LICENSE) for details.
+MIT License — See [LICENSE](LICENSE) for details.
 
 ---
 
 ## Related Projects
 
-- [FastCore](https://github.com/andrestubbe/FastCore) � Native Library Loader for Java
-- [FastAudioCapture](https://github.com/andrestubbe/FastAudioCapture) � High-Performance Native Audio Capture for Java
-- [FastAudioPlayer](https://github.com/andrestubbe/FastAudioPlayer) � Native Windows WASAPI Audio Playback for Java
-- [FastTTS](https://github.com/andrestubbe/FastTTS) � High-Performance Native Windows TTS API for Java
+- [FastCore](https://github.com/andrestubbe/FastCore) — Native Library Loader for Java
+- [FastAudioCapture](https://github.com/andrestubbe/FastAudioCapture) — High-Performance Native Audio Capture for Java
+- [FastAudioPlayer](https://github.com/andrestubbe/FastAudioPlayer) — Native Windows WASAPI Audio Playback for Java
+- [FastTTS](https://github.com/andrestubbe/FastTTS) — High-Performance Native Windows TTS API for Java
 - [FastWakeWord](https://github.com/andrestubbe/FastWakeWord)
 
 ---
-**Part of the FastJava Ecosystem** � *Making the JVM faster. Small package. Maximum speed. Zero bloat. ????*
+**Part of the FastJava Ecosystem** — *Making the JVM faster. Small package. Maximum speed. Zero bloat. 🚀📋*
 
 
 

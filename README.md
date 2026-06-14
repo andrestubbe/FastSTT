@@ -1,4 +1,4 @@
-# FastSTT 0.1.0 [ALPHA-2026-06] — Ultra-Fast Native Speech-to-Text for Java
+# FastSTT 0.1.0 [ALPHA-2026-06] â€” ï¿½ Ultra-Fast Native Speech-to-Text for Java
 
 [![Status](https://img.shields.io/badge/status-0.1.0-brightgreen.svg)](https://github.com/andrestubbe/FastSTT/releases/tag/0.1.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -96,20 +96,20 @@ FastSTT comes with a built-in installer to help you download and manage Whisper 
 
 ## License
 
-MIT License — See [LICENSE](LICENSE) for details.
+MIT License ï¿½ See [LICENSE](LICENSE) for details.
 
 ---
 
 ## Related Projects
 
-- [FastCore](https://github.com/andrestubbe/FastCore) — Native Library Loader for Java
-- [FastAudioCapture](https://github.com/andrestubbe/FastAudioCapture) — High-Performance Native Audio Capture for Java
-- [FastAudioPlayer](https://github.com/andrestubbe/FastAudioPlayer) — Native Windows WASAPI Audio Playback for Java
-- [FastTTS](https://github.com/andrestubbe/FastTTS) — High-Performance Native Windows TTS API for Java
+- [FastCore](https://github.com/andrestubbe/FastCore) ï¿½ Native Library Loader for Java
+- [FastAudioCapture](https://github.com/andrestubbe/FastAudioCapture) ï¿½ High-Performance Native Audio Capture for Java
+- [FastAudioPlayer](https://github.com/andrestubbe/FastAudioPlayer) ï¿½ Native Windows WASAPI Audio Playback for Java
+- [FastTTS](https://github.com/andrestubbe/FastTTS) ï¿½ High-Performance Native Windows TTS API for Java
 - [FastWakeWord](https://github.com/andrestubbe/FastWakeWord)
 
 ---
-**Part of the FastJava Ecosystem** — *Making the JVM faster. Small package. Maximum speed. Zero bloat. ????*
+**Part of the FastJava Ecosystem** ï¿½ *Making the JVM faster. Small package. Maximum speed. Zero bloat. ????*
 
 
 

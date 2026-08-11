@@ -37,7 +37,9 @@ public class FastSTTInstaller {
                 case "1": manageWhisperModels(); break;
                 case "2": downloadNativeBinaries(); break;
                 case "3": testAudio(); break;
-                case "4": configureCloud(); break;
+                case "4": // configureCloud(); break;
+                    System.out.println("[INFO] Cloud configuration coming soon.");
+                    break;
                 case "5": manageInstallPath(); break;
                 case "q": return;
             }

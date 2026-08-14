@@ -12,7 +12,7 @@
 
 `FastSTT` provides native C++ AVX2 vector audio preprocessing and Whisper C++ bindings for Java applications, enabling low-latency real-time voice recognition with zero Garbage Collection pressure.
 
-![Showcase](docs/screenshot.png)
+![Showcase](https://raw.githubusercontent.com/andrestubbe/FastSTT/main/docs/screenshot.png)
 
 ---
 

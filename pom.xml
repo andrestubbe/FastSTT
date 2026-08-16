@@ -7,7 +7,7 @@
 
     <groupId>com.github.andrestubbe</groupId>
     <artifactId>FastSTT</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <packaging>jar</packaging>
 
     <name>FastSTT</name>
@@ -40,6 +40,20 @@
             <groupId>com.github.andrestubbe</groupId>
             <artifactId>FastAudioCapture</artifactId>
             <version>0.1.0</version>
+        </dependency>
+
+        <!-- FastSharedMemory - Zero-Copy IPC -->
+        <dependency>
+            <groupId>com.github.andrestubbe</groupId>
+            <artifactId>FastSharedMemory</artifactId>
+            <version>0.1.2</version>
+        </dependency>
+
+        <!-- FastPointer - Native Address Arithmetic -->
+        <dependency>
+            <groupId>com.github.andrestubbe</groupId>
+            <artifactId>FastPointer</artifactId>
+            <version>0.1.1</version>
         </dependency>
 
         <dependency>

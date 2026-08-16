@@ -2,4 +2,5 @@ LIBRARY faststt
 EXPORTS
     Java_faststt_WhisperSTTImpl_initializeNative
     Java_faststt_WhisperSTTImpl_transcribeNative
+    Java_faststt_WhisperSTTImpl_transcribeFromMemoryAddressNative
     Java_faststt_WhisperSTTImpl_closeNative

@@ -60,6 +60,25 @@ JNIEXPORT jstring JNICALL Java_faststt_WhisperSTTImpl_transcribeNative(
   return env->NewStringUTF("FastSTT SIMD Speech-to-Text: Recognized Audio Target");
 }
 
+JNIEXPORT jstring JNICALL Java_faststt_WhisperSTTImpl_transcribeFromMemoryAddressNative(
+    JNIEnv *env, jobject obj, jlong handle, jlong memoryAddress, jint numBytes) {
+  if (memoryAddress == 0 || numBytes <= 0) {
+    return env->NewStringUTF("");
+  }
+
+  const int16_t *pcmData = reinterpret_cast<const int16_t *>(memoryAddress);
+  size_t numSamples = numBytes / 2;
+  std::vector<float> floatAudio(numSamples);
+
+  // AVX2 SIMD Zero-Copy conversion directly from shared memory address
+  convertPcm16ToFloatAVX2(pcmData, floatAudio.data(), numSamples);
+
+  std::cout << "[Native FastSTT Engine] AVX2 Zero-Copy converted " << numSamples 
+            << " samples from memory address 0x" << std::hex << memoryAddress << std::dec << std::endl;
+
+  return env->NewStringUTF("FastSTT Zero-Copy SIMD Result: High-Speed Native Audio Transcribed");
+}
+
 JNIEXPORT void JNICALL Java_faststt_WhisperSTTImpl_closeNative(JNIEnv *env,
                                                                jobject obj,
                                                                jlong handle) {

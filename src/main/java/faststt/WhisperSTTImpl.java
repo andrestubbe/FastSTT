@@ -311,9 +311,22 @@ public class WhisperSTTImpl implements FastSTT {
         }
     }
 
+    @Override
+    public String transcribeFromMemoryAddress(long memoryAddress, int numBytes) {
+        if (memoryAddress == 0 || numBytes <= 0) {
+            return "";
+        }
+        try {
+            return transcribeFromMemoryAddressNative(nativeHandle, memoryAddress, numBytes);
+        } catch (Throwable t) {
+            return "(Zero-Copy Transcription failed)";
+        }
+    }
+
     // Native JNI Methods
     private native long initializeNative(String modelPath);
     private native String transcribeNative(long handle, byte[] pcmAudio);
+    private native String transcribeFromMemoryAddressNative(long handle, long memoryAddress, int numBytes);
     private native void closeNative(long handle);
 }
 

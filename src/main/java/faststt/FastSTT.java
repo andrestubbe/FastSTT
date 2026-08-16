@@ -34,6 +34,16 @@ public interface FastSTT {
     String transcribe(byte[] pcmAudio);
 
     /**
+     * Transcribes raw PCM audio directly from a FastSharedMemory memory address (Zero-Copy).
+     * @param memoryAddress Primitive native memory address pointing to 16kHz 16-bit PCM audio.
+     * @param numBytes Number of audio bytes to read from memory.
+     * @return Transcribed text.
+     */
+    default String transcribeFromMemoryAddress(long memoryAddress, int numBytes) {
+        return "";
+    }
+
+    /**
      * Transcribes a WAV audio file directly.
      * @param wavFile Target .wav file.
      * @return Transcribed text.

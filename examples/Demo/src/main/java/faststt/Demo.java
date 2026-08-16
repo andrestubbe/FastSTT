@@ -169,14 +169,15 @@ public class Demo {
             });
             captureThread.start();
 
-            // Sub-Second Real-Time Sliding-Window Stream Thread
-            final int windowBytes = (int) (3.0 * 16000 * 2); // 3.0s sliding window
-            final String[] lastPrinted = {""};
+            // Progressive Line-by-Line Real-Time Live Streaming Thread
+            final java.util.Set<String> completedSentences = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
+            final int windowBytes = (int) (6.0 * 16000 * 2); // 6.0s sliding window
+            final String[] currentLivePartial = {""};
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(100); // Ultra-fast 100ms refresh rate
+                        Thread.sleep(120); // Fast 120ms real-time refresh rate
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -196,11 +197,27 @@ public class Demo {
                                         .replaceAll("\\s+", " ")
                                         .trim();
 
-                                if (!cleanText.isEmpty() && !cleanText.equals(lastPrinted[0])) {
-                                    // Print real-time streaming line update using carriage return
-                                    System.out.print("\r\033[K🎙️ " + cleanText);
-                                    System.out.flush();
-                                    lastPrinted[0] = cleanText;
+                                if (!cleanText.isEmpty()) {
+                                    String[] sentences = cleanText.split("(?<=[.!?\\n])\\s+");
+                                    for (int i = 0; i < sentences.length - 1; i++) {
+                                        String sentence = sentences[i].trim();
+                                        String key = sentence.replaceAll("[^a-zA-Z0-9äöüÄÖÜß]", "").toLowerCase();
+                                        if (key.length() >= 4 && !completedSentences.contains(key)) {
+                                            completedSentences.add(key);
+                                            // Print completed sentence persistently on its own line!
+                                            System.out.print("\r\033[K📝 " + sentence + "\n");
+                                            System.out.flush();
+                                            currentLivePartial[0] = "";
+                                        }
+                                    }
+
+                                    // Live preview of active uncompleted sentence on the current line
+                                    String activeSentence = sentences[sentences.length - 1].trim();
+                                    if (!activeSentence.isEmpty() && !activeSentence.equals(currentLivePartial[0])) {
+                                        System.out.print("\r\033[K🎙️ " + activeSentence);
+                                        System.out.flush();
+                                        currentLivePartial[0] = activeSentence;
+                                    }
                                 }
                             }
                         }

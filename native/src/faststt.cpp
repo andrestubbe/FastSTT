@@ -30,14 +30,7 @@ extern "C" {
 
 JNIEXPORT jlong JNICALL Java_faststt_WhisperSTTImpl_initializeNative(
     JNIEnv *env, jobject obj, jstring modelPath) {
-  const char *path = env->GetStringUTFChars(modelPath, nullptr);
-
-  std::cout << "[Native FastSTT Engine] Initialized Whisper model from: " << path
-            << std::endl;
-
   whisper_handle handle = (void *)(uintptr_t)0xDEADBEEF;
-
-  env->ReleaseStringUTFChars(modelPath, path);
   return (jlong)handle;
 }
 

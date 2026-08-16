@@ -170,13 +170,14 @@ public class Demo {
             });
             captureThread.start();
 
-            // Persistent Line-by-Line Cumulative Streaming Thread
+            // Persistent Real-Time Live Streaming Thread
             final java.util.Set<String> printedSentences = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
+            final String[] lastPartial = {""};
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(300); // 300ms check interval
+                        Thread.sleep(250); // 250ms check interval
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -195,15 +196,22 @@ public class Demo {
 
                                 if (!cleanText.isEmpty()) {
                                     String[] sentences = cleanText.split("(?<=[.!?\\n])\\s+");
-                                    for (String s : sentences) {
-                                        String sentence = s.trim();
+                                    for (int i = 0; i < sentences.length - 1; i++) {
+                                        String sentence = sentences[i].trim();
                                         String key = sentence.replaceAll("[^a-zA-Z0-9äöüÄÖÜß]", "").toLowerCase();
-                                        if (key.length() >= 4 && !printedSentences.contains(key)) {
+                                        if (key.length() >= 3 && !printedSentences.contains(key)) {
                                             printedSentences.add(key);
-                                            // Print persistently to terminal on a new line!
                                             System.out.println(sentence);
                                             System.out.flush();
+                                            lastPartial[0] = "";
                                         }
+                                    }
+                                    // Live uncompleted sentence
+                                    String activeSentence = sentences[sentences.length - 1].trim();
+                                    if (!activeSentence.isEmpty() && !activeSentence.equals(lastPartial[0])) {
+                                        System.out.print("\r\033[K" + activeSentence);
+                                        System.out.flush();
+                                        lastPartial[0] = activeSentence;
                                     }
                                 }
                             }

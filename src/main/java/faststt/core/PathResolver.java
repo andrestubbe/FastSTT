@@ -21,7 +21,8 @@ public final class PathResolver {
             // Fallback: try one level up (common for multi-module or examples)
             try (FileInputStream fis = new FileInputStream("../../faststt.properties")) {
                 props.load(fis);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
     }
 
@@ -37,7 +38,7 @@ public final class PathResolver {
         // 2. Check local directory (Portable / Dev mode)
         File local = new File(defaultFilename);
         if (local.exists()) return local.getAbsolutePath();
-        
+
         // 3. Check models/ directory (specifically for models)
         File modelLoc = new File("models/" + defaultFilename);
         if (modelLoc.exists()) return modelLoc.getAbsolutePath();
@@ -54,12 +55,12 @@ public final class PathResolver {
         if (propPath != null && new File(propPath).exists()) return propPath;
 
         String[] candidates = {
-            exeName,
-            "build/" + exeName,
-            "whisper_extract/Release/" + exeName,
-            "../../build/" + exeName,
-            "../../whisper_extract/Release/" + exeName,
-            DEFAULT_INSTALL_DIR + "\\" + exeName
+                exeName,
+                "build/" + exeName,
+                "whisper_extract/Release/" + exeName,
+                "../../build/" + exeName,
+                "../../whisper_extract/Release/" + exeName,
+                DEFAULT_INSTALL_DIR + "\\" + exeName
         };
 
         for (String candidate : candidates) {

@@ -4,7 +4,7 @@ package faststt;
  * High-level interface for Speech-to-Text operations.
  */
 public interface FastSTT {
-    
+
     /**
      * Creates a local Whisper Speech-to-Text engine.
      */
@@ -28,6 +28,7 @@ public interface FastSTT {
 
     /**
      * Transcribes a single PCM audio buffer.
+     *
      * @param pcmAudio 16kHz, 16-bit mono PCM data.
      * @return Transcribed text.
      */
@@ -35,8 +36,9 @@ public interface FastSTT {
 
     /**
      * Transcribes raw PCM audio directly from a FastSharedMemory memory address (Zero-Copy).
+     *
      * @param memoryAddress Primitive native memory address pointing to 16kHz 16-bit PCM audio.
-     * @param numBytes Number of audio bytes to read from memory.
+     * @param numBytes      Number of audio bytes to read from memory.
      * @return Transcribed text.
      */
     default String transcribeFromMemoryAddress(long memoryAddress, int numBytes) {
@@ -45,6 +47,7 @@ public interface FastSTT {
 
     /**
      * Transcribes a WAV audio file directly.
+     *
      * @param wavFile Target .wav file.
      * @return Transcribed text.
      */
@@ -52,6 +55,7 @@ public interface FastSTT {
 
     /**
      * Starts a real-time streaming session.
+     *
      * @param listener Callback for partial and final results.
      */
     void startStreaming(FastSTTListener listener);

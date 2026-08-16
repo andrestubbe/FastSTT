@@ -8,7 +8,7 @@ public interface FastSTTListener {
      * Fired when a word or phrase is detected, but the sentence is not yet finished.
      */
     void onPartialResult(String text);
-    
+
     /**
      * Fired when a sentence is completed (silence detected).
      */

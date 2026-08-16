@@ -169,13 +169,14 @@ public class Demo {
             });
             captureThread.start();
 
-            // True Real-Time Word-by-Word Streaming Thread
-            final int[] lastLength = {0};
+            // Sub-Second Real-Time Sliding-Window Stream Thread
+            final int windowBytes = (int) (3.0 * 16000 * 2); // 3.0s sliding window
+            final String[] lastPrinted = {""};
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(150); // Fast 150ms real-time refresh rate!
+                        Thread.sleep(100); // Ultra-fast 100ms refresh rate
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -184,16 +185,22 @@ public class Demo {
                         }
 
                         if (currentPcm.length >= 8000) { // At least 250ms audio
-                            // Stream full cumulative audio to capture ALL text without drops
-                            String text = stt.transcribe(currentPcm);
+                            byte[] windowPcm = currentPcm.length > windowBytes
+                                    ? java.util.Arrays.copyOfRange(currentPcm, currentPcm.length - windowBytes, currentPcm.length)
+                                    : currentPcm;
+
+                            String text = stt.transcribe(windowPcm);
                             if (text != null && !text.trim().isEmpty()) {
-                                String cleanText = text.trim();
-                                if (cleanText.length() > lastLength[0]) {
-                                    // Print new incoming words dynamically in real time
-                                    String newChunk = cleanText.substring(lastLength[0]);
-                                    System.out.print(newChunk);
+                                String cleanText = text.trim()
+                                        .replace("[BLANK_AUDIO]", "")
+                                        .replaceAll("\\s+", " ")
+                                        .trim();
+
+                                if (!cleanText.isEmpty() && !cleanText.equals(lastPrinted[0])) {
+                                    // Print real-time streaming line update using carriage return
+                                    System.out.print("\r\033[K🎙️ " + cleanText);
                                     System.out.flush();
-                                    lastLength[0] = cleanText.length();
+                                    lastPrinted[0] = cleanText;
                                 }
                             }
                         }

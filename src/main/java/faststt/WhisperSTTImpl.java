@@ -316,10 +316,32 @@ public class WhisperSTTImpl implements FastSTT {
         if (memoryAddress == 0 || numBytes <= 0) {
             return "";
         }
+        
+        File tempWav = null;
         try {
+            File cliFile = new File(cliPath);
+            if (cliFile.exists()) {
+                // Read PCM bytes from native memory pointer directly into temp WAV for real Whisper transcription
+                byte[] pcmData = new byte[numBytes];
+                sun.misc.Unsafe unsafe = getUnsafe();
+                if (unsafe != null) {
+                    unsafe.copyMemory(null, memoryAddress, pcmData, sun.misc.Unsafe.ARRAY_BYTE_BASE_OFFSET, numBytes);
+                }
+                return transcribe(pcmData);
+            }
             return transcribeFromMemoryAddressNative(nativeHandle, memoryAddress, numBytes);
         } catch (Throwable t) {
             return "(Zero-Copy Transcription failed)";
+        }
+    }
+
+    private static sun.misc.Unsafe getUnsafe() {
+        try {
+            java.lang.reflect.Field f = sun.misc.Unsafe.class.getDeclaredField("theUnsafe");
+            f.setAccessible(true);
+            return (sun.misc.Unsafe) f.get(null);
+        } catch (Exception e) {
+            return null;
         }
     }
 

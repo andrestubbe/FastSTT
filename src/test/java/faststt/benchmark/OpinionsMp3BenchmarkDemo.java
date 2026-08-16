@@ -69,8 +69,7 @@ public class OpinionsMp3BenchmarkDemo {
 
             long startZeroCopy = System.currentTimeMillis();
             long nsZeroCopyStart = System.nanoTime();
-
-            long addressPointer = shm.address(); // Instant zero-copy address passing!
+            long addressPointer = shm.address();
             long nsZeroCopyOverhead = System.nanoTime() - nsZeroCopyStart;
 
             String resultZeroCopy = stt.transcribeFromMemoryAddress(addressPointer, audioBytes);

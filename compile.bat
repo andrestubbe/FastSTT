@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo ========================================
-echo FastSTT Native Library Builder (AVX2)
+echo FastSTT Native C++ Library Builder
 echo ========================================
 
 set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installerswhere.exe"

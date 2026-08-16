@@ -83,11 +83,11 @@ public class OpinionsMp3BenchmarkDemo {
             // -------------------------------------------------------------
             System.out.println("==================================================");
             System.out.println("[BENCHMARK SUMMARY]");
-            System.out.printf("Audio File Duration:         %.2f sec\n", durationSeconds);
-            System.out.printf("Heap Transfer Overhead:      %d ns (%.4f ms)\n", nsHeapTransferOverhead, nsHeapTransferOverhead / 1_000_000.0);
-            System.out.printf("Zero-Copy Transfer Overhead:  %d ns (%.4f ms)\n", nsZeroCopyOverhead, nsZeroCopyOverhead / 1_000_000.0);
+            System.out.printf("Audio File Duration:            %.2f sec\n", durationSeconds);
+            System.out.printf("Test 1 Heap Transfer Overhead:  %d ns (%.4f ms)\n", nsHeapTransferOverhead, nsHeapTransferOverhead / 1_000_000.0);
+            System.out.printf("Test 2 Zero-Copy IPC Overhead:  %d ns (%.4f ms)\n", nsZeroCopyOverhead, nsZeroCopyOverhead / 1_000_000.0);
             if (nsZeroCopyOverhead > 0) {
-                System.out.printf("IPC Speedup Factor:          %.1fx FASTER Handoff!\n", (double) nsHeapTransferOverhead / nsZeroCopyOverhead);
+                System.out.printf("⚡ IPC Handoff Speedup:         %.1fx FASTER (Zero-Copy)!\n", (double) nsHeapTransferOverhead / nsZeroCopyOverhead);
             }
             System.out.println("==================================================");
         } catch (Exception e) {

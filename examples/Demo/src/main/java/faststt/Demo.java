@@ -169,14 +169,13 @@ public class Demo {
             });
             captureThread.start();
 
-            // Clean Real-Time Sliding Window Live Streaming Thread (4s window)
-            final int windowBytes = (int) (4.0 * 16000 * 2); // 4-second sliding audio window
-            final String[] lastPrintedText = {""};
+            // Persistent Line-by-Line Cumulative Streaming Thread
+            final java.util.Set<String> printedSentences = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(300); // 300ms refresh rate for high quality
+                        Thread.sleep(300); // 300ms check interval
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -184,12 +183,8 @@ public class Demo {
                             currentPcm = out.toByteArray();
                         }
 
-                        if (currentPcm.length >= 16000) { // At least 0.5s audio
-                            byte[] windowPcm = currentPcm.length > windowBytes
-                                    ? java.util.Arrays.copyOfRange(currentPcm, currentPcm.length - windowBytes, currentPcm.length)
-                                    : currentPcm;
-
-                            String text = stt.transcribe(windowPcm);
+                        if (currentPcm.length >= 8000) { // At least 250ms audio
+                            String text = stt.transcribe(currentPcm);
                             if (text != null && !text.trim().isEmpty()) {
                                 String cleanText = text.trim()
                                         .replace("[BLANK_AUDIO]", "")
@@ -197,11 +192,18 @@ public class Demo {
                                         .replaceAll("\\s+", " ")
                                         .trim();
 
-                                if (!cleanText.isEmpty() && !cleanText.equalsIgnoreCase(lastPrintedText[0])) {
-                                    // Print clean live text line update
-                                    System.out.print("\r\033[K🎙️ " + cleanText);
-                                    System.out.flush();
-                                    lastPrintedText[0] = cleanText;
+                                if (!cleanText.isEmpty()) {
+                                    String[] sentences = cleanText.split("(?<=[.!?\\n])\\s+");
+                                    for (String s : sentences) {
+                                        String sentence = s.trim();
+                                        String key = sentence.replaceAll("[^a-zA-Z0-9äöüÄÖÜß]", "").toLowerCase();
+                                        if (key.length() >= 4 && !printedSentences.contains(key)) {
+                                            printedSentences.add(key);
+                                            // Print persistently to terminal on a new line!
+                                            System.out.println(sentence);
+                                            System.out.flush();
+                                        }
+                                    }
                                 }
                             }
                         }

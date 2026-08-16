@@ -30,3 +30,11 @@ public String transcribe(byte[] pcmAudio)
 public String transcribe(File wavFile)
 ```
 Transcribes 16kHz 16-bit mono PCM audio buffers or WAV audio files directly.
+
+---
+
+### `transcribeFromMemoryAddress`
+```java
+public String transcribeFromMemoryAddress(long memoryAddress, int numBytes)
+```
+Transcribes raw PCM16 16kHz audio directly from a **[FastSharedMemory](https://github.com/andrestubbe/FastSharedMemory)** native memory address, eliminating Java Heap byte array allocations and reducing transfer latency to < 3.4 microseconds.

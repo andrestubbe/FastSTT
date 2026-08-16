@@ -74,6 +74,7 @@ public class WhisperSTTImpl implements FastSTT {
                     "-m", modelPath,
                     "-f", tempWav.getAbsolutePath(),
                     "-t", String.valueOf(threads),
+                    "-ngl", "99",
                     "--temperature", "0.0",
                     "--no-timestamps",
                     "--no-prints",

@@ -32,7 +32,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>faststt.demo.Demo</mainClass>
+                    <mainClass>faststt.Demo</mainClass>
                 </configuration>
             </plugin>
         </plugins>

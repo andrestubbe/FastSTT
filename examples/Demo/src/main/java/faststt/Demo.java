@@ -169,14 +169,14 @@ public class Demo {
             });
             captureThread.start();
 
-            // Continuous Cumulative Word-by-Word Live Transcript Thread
-            final StringBuilder accumulatedTranscript = new StringBuilder();
-            final int[] lastPrintedIndex = {0};
+            // Clean Real-Time Sliding Window Live Streaming Thread (4s window)
+            final int windowBytes = (int) (4.0 * 16000 * 2); // 4-second sliding audio window
+            final String[] lastPrintedText = {""};
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(250); // Refresh every 250ms
+                        Thread.sleep(300); // 300ms refresh rate for high quality
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -184,22 +184,24 @@ public class Demo {
                             currentPcm = out.toByteArray();
                         }
 
-                        if (currentPcm.length >= 8000) { // At least 250ms audio
-                            String text = stt.transcribe(currentPcm);
+                        if (currentPcm.length >= 16000) { // At least 0.5s audio
+                            byte[] windowPcm = currentPcm.length > windowBytes
+                                    ? java.util.Arrays.copyOfRange(currentPcm, currentPcm.length - windowBytes, currentPcm.length)
+                                    : currentPcm;
+
+                            String text = stt.transcribe(windowPcm);
                             if (text != null && !text.trim().isEmpty()) {
                                 String cleanText = text.trim()
                                         .replace("[BLANK_AUDIO]", "")
+                                        .replace("[GIGGLES]", "")
                                         .replaceAll("\\s+", " ")
                                         .trim();
 
-                                if (cleanText.length() > lastPrintedIndex[0]) {
-                                    // Print new incoming words persistently to terminal!
-                                    String newPart = cleanText.substring(lastPrintedIndex[0]);
-                                    System.out.print(newPart);
+                                if (!cleanText.isEmpty() && !cleanText.equalsIgnoreCase(lastPrintedText[0])) {
+                                    // Print clean live text line update
+                                    System.out.print("\r\033[K🎙️ " + cleanText);
                                     System.out.flush();
-                                    lastPrintedIndex[0] = cleanText.length();
-                                    accumulatedTranscript.setLength(0);
-                                    accumulatedTranscript.append(cleanText);
+                                    lastPrintedText[0] = cleanText;
                                 }
                             }
                         }

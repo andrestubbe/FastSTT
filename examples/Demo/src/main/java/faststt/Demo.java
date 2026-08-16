@@ -99,6 +99,7 @@ public class Demo {
             while (true) {
                 System.out.println("\n-----------------------------------------");
                 System.out.println("👉 Press [ENTER] to start recording your voice (or type 'q' + ENTER to exit)...");
+                if (!scanner.hasNextLine()) break;
                 String input = scanner.nextLine();
                 if (input.trim().equalsIgnoreCase("q")) {
                     break;

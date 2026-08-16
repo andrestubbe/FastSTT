@@ -107,14 +107,12 @@ public class Demo {
 
                 System.out.println("\n🔴 RECORDING... (Press [ENTER] to stop)\n");
 
-                byte[] audioData = recordAudioFromMicrophoneWithLivePreview(stt, scanner);
+                StringBuilder liveStreamFullText = new StringBuilder();
+                byte[] audioData = recordAudioFromMicrophoneWithLivePreview(stt, scanner, liveStreamFullText);
 
                 if (audioData != null && audioData.length > 0 && !(stt instanceof ElevenLabsSTTImpl)) {
-                    String finalFullText = stt.transcribe(audioData);
-                    if (finalFullText != null && !finalFullText.trim().isEmpty()) {
-                        System.out.println("\n-----------------------------------------");
-                        System.out.println("📝 Complete Text: " + finalFullText.trim());
-                    }
+                    System.out.println("\n-----------------------------------------");
+                    System.out.println("📝 Complete Text: " + liveStreamFullText.toString().trim());
                 }
                 System.out.println("\n=========================================");
                 System.out.println("✓ Session finished.");
@@ -144,7 +142,7 @@ public class Demo {
         }
     }
 
-    private static byte[] recordAudioFromMicrophoneWithLivePreview(FastSTT stt, Scanner scanner) {
+    private static byte[] recordAudioFromMicrophoneWithLivePreview(FastSTT stt, Scanner scanner, StringBuilder fullTextAccumulator) {
         AudioFormat format = new AudioFormat(16000.0f, 16, 1, true, false); // 16kHz 16-bit Mono
         DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
@@ -222,8 +220,12 @@ public class Demo {
                                     }
 
                                     if (outSb.length() > 0) {
-                                        System.out.print(outSb.toString());
+                                        String printed = outSb.toString();
+                                        System.out.print(printed);
                                         System.out.flush();
+                                        if (fullTextAccumulator != null) {
+                                            fullTextAccumulator.append(printed);
+                                        }
                                     }
                                 }
                             }

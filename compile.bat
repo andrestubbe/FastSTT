@@ -37,28 +37,27 @@ if not defined JAVA_HOME (
 
 echo Using JAVA_HOME: %JAVA_HOME%
 
-call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64
+@call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64 > nul
 
-if not exist "build" mkdir build
-if not exist "src\main\resources\native" mkdir "src\main\resources\native"
-if not exist "src\main\resources\win32-x86-64" mkdir "src\main\resources\win32-x86-64"
-if not exist "target\classes\native" mkdir "target\classes\native"
+if not exist "build" mkdir build > nul 2>&1
+if not exist "src\main\resources\native" mkdir "src\main\resources\native" > nul 2>&1
+if not exist "src\main\resources\win32-x86-64" mkdir "src\main\resources\win32-x86-64" > nul 2>&1
+if not exist "target\classes\native" mkdir "target\classes\native" > nul 2>&1
 
-cl.exe /nologo /O2 /arch:AVX2 /std:c++17 /MD /LD /D_CRT_SECURE_NO_WARNINGS ^
+cl.exe /nologo /O2 /arch:AVX2 /EHsc /std:c++17 /MD /LD /D_CRT_SECURE_NO_WARNINGS ^
     /I"%JAVA_HOME%\include" ^
     /I"%JAVA_HOME%\include\win32" ^
     native\src\faststt.cpp ^
     /Fo:build\faststt.obj ^
-    /link /DLL /OUT:build\faststt.dll user32.lib gdi32.lib shcore.lib advapi32.lib dwmapi.lib
+    /link /DLL /OUT:build\faststt.dll user32.lib gdi32.lib shcore.lib advapi32.lib dwmapi.lib > nul
 
 if errorlevel 1 (
     echo [ERROR] Compilation failed!
     exit /b 1
 )
 
-copy /Y build\faststt.dll src\main\resources\native\faststt.dll
-copy /Y build\faststt.dll src\main\resources\win32-x86-64\faststt.dll
-copy /Y build\faststt.dll target\classes\native\faststt.dll
+copy /Y build\faststt.dll src\main\resources\native\faststt.dll > nul
+copy /Y build\faststt.dll src\main\resources\win32-x86-64\faststt.dll > nul
+copy /Y build\faststt.dll target\classes\native\faststt.dll > nul
 
-echo.
-echo [SUCCESS] DLL built and copied to resources!
+echo [SUCCESS] FastSTT AVX2 C++ Native Library built.

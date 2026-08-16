@@ -1,12 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion
 
-echo ========================================
-echo FastSTT Native C++ Library Builder
-echo ========================================
-
-set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installerswhere.exe"
-if not exist "%VSWHERE%" set "VSWHERE=%ProgramFiles%\Microsoft Visual Studio\Installerswhere.exe"
+set "VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer swhere.exe"
+if not exist "%VSWHERE%" set "VSWHERE=%ProgramFiles%\Microsoft Visual Studio\Installer swhere.exe"
 
 if exist "%VSWHERE%" (
     for /f "usebackq tokens=*" %%i in (`"%VSWHERE%" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
@@ -55,5 +51,3 @@ if errorlevel 1 (
 copy /Y build\faststt.dll src\main\resources\native\faststt.dll > nul
 copy /Y build\faststt.dll src\main\resources\win32-x86-64\faststt.dll > nul
 copy /Y build\faststt.dll target\classes\native\faststt.dll > nul
-
-echo [SUCCESS] FastSTT AVX2 C++ Native Library built.

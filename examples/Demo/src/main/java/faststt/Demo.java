@@ -170,14 +170,13 @@ public class Demo {
             });
             captureThread.start();
 
-            // Persistent Real-Time Live Streaming Thread
-            final java.util.Set<String> printedSentences = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
-            final String[] lastPartial = {""};
+            // Pure Additive Continuous Real-Time Streaming Thread (Word-Wrap Flow)
+            final StringBuilder printedText = new StringBuilder();
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(250); // 250ms check interval
+                        Thread.sleep(200); // Fast 200ms real-time refresh
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -194,24 +193,27 @@ public class Demo {
                                         .replaceAll("\\s+", " ")
                                         .trim();
 
-                                if (!cleanText.isEmpty()) {
-                                    String[] sentences = cleanText.split("(?<=[.!?\\n])\\s+");
-                                    for (int i = 0; i < sentences.length - 1; i++) {
-                                        String sentence = sentences[i].trim();
-                                        String key = sentence.replaceAll("[^a-zA-Z0-9äöüÄÖÜß]", "").toLowerCase();
-                                        if (key.length() >= 3 && !printedSentences.contains(key)) {
-                                            printedSentences.add(key);
-                                            System.out.println(sentence);
-                                            System.out.flush();
-                                            lastPartial[0] = "";
+                                String currentlyPrinted = printedText.toString();
+                                if (!cleanText.isEmpty() && cleanText.length() > currentlyPrinted.length()) {
+                                    String delta;
+                                    if (currentlyPrinted.isEmpty()) {
+                                        delta = cleanText;
+                                    } else if (cleanText.startsWith(currentlyPrinted)) {
+                                        delta = cleanText.substring(currentlyPrinted.length());
+                                    } else {
+                                        // Match common prefix to prevent duplicate repeats
+                                        int commonLen = 0;
+                                        int maxLen = Math.min(currentlyPrinted.length(), cleanText.length());
+                                        while (commonLen < maxLen && currentlyPrinted.charAt(commonLen) == cleanText.charAt(commonLen)) {
+                                            commonLen++;
                                         }
+                                        delta = cleanText.substring(commonLen);
                                     }
-                                    // Live uncompleted sentence
-                                    String activeSentence = sentences[sentences.length - 1].trim();
-                                    if (!activeSentence.isEmpty() && !activeSentence.equals(lastPartial[0])) {
-                                        System.out.print("\r\033[K" + activeSentence);
+
+                                    if (!delta.isEmpty()) {
+                                        System.out.print(delta);
                                         System.out.flush();
-                                        lastPartial[0] = activeSentence;
+                                        printedText.append(delta);
                                     }
                                 }
                             }

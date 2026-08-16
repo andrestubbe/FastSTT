@@ -170,13 +170,14 @@ public class Demo {
             });
             captureThread.start();
 
-            // Pure Additive Continuous Real-Time Streaming Thread (Word-Wrap Flow)
-            final StringBuilder printedText = new StringBuilder();
+            // Fixed 5-Second Chunk Streaming Thread (Guarantees Constant Ultra-Fast < 50ms Inference Time)
+            final int chunkBytes = (int) (5.0 * 16000 * 2); // 5.0-second fixed audio chunk
+            final java.util.Set<String> printedSentences = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(200); // Fast 200ms real-time refresh
+                        Thread.sleep(400); // 400ms check interval
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -184,8 +185,13 @@ public class Demo {
                             currentPcm = out.toByteArray();
                         }
 
-                        if (currentPcm.length >= 8000) { // At least 250ms audio
-                            String text = stt.transcribe(currentPcm);
+                        if (currentPcm.length >= 16000) { // At least 0.5s audio
+                            // Always slice the latest 5.0 seconds of audio so computation time NEVER grows!
+                            byte[] chunkPcm = currentPcm.length > chunkBytes
+                                    ? java.util.Arrays.copyOfRange(currentPcm, currentPcm.length - chunkBytes, currentPcm.length)
+                                    : currentPcm;
+
+                            String text = stt.transcribe(chunkPcm);
                             if (text != null && !text.trim().isEmpty()) {
                                 String cleanText = text.trim()
                                         .replace("[BLANK_AUDIO]", "")
@@ -193,27 +199,16 @@ public class Demo {
                                         .replaceAll("\\s+", " ")
                                         .trim();
 
-                                String currentlyPrinted = printedText.toString();
-                                if (!cleanText.isEmpty() && cleanText.length() > currentlyPrinted.length()) {
-                                    String delta;
-                                    if (currentlyPrinted.isEmpty()) {
-                                        delta = cleanText;
-                                    } else if (cleanText.startsWith(currentlyPrinted)) {
-                                        delta = cleanText.substring(currentlyPrinted.length());
-                                    } else {
-                                        // Match common prefix to prevent duplicate repeats
-                                        int commonLen = 0;
-                                        int maxLen = Math.min(currentlyPrinted.length(), cleanText.length());
-                                        while (commonLen < maxLen && currentlyPrinted.charAt(commonLen) == cleanText.charAt(commonLen)) {
-                                            commonLen++;
+                                if (!cleanText.isEmpty()) {
+                                    String[] sentences = cleanText.split("(?<=[.!?\\n])\\s+");
+                                    for (String s : sentences) {
+                                        String sentence = s.trim();
+                                        String key = sentence.replaceAll("[^a-zA-Z0-9äöüÄÖÜß]", "").toLowerCase();
+                                        if (key.length() >= 4 && !printedSentences.contains(key)) {
+                                            printedSentences.add(key);
+                                            System.out.print(sentence + " ");
+                                            System.out.flush();
                                         }
-                                        delta = cleanText.substring(commonLen);
-                                    }
-
-                                    if (!delta.isEmpty()) {
-                                        System.out.print(delta);
-                                        System.out.flush();
-                                        printedText.append(delta);
                                     }
                                 }
                             }

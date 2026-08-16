@@ -10,6 +10,6 @@ if errorlevel 1 exit /b 1
 echo [FastSTT] Running Demo...
 cd examples\Demo
 call mvn package -DskipTests -q
-java -cp "target\demo-0.1.2.jar;..\..\target\FastSTT-0.1.2.jar;%USERPROFILE%\.m2\repository\com\github\andrestubbe\FastCore\0.1.0\FastCore-0.1.0.jar;%USERPROFILE%\.m2\repository\com\github\andrestubbe\fastcore\0.1.0\fastcore-0.1.0.jar" faststt.demo.Demo
+java --enable-native-access=ALL-UNNAMED -cp "target\demo-0.1.3.jar;..\..\target\FastSTT-0.1.3.jar;%USERPROFILE%\.m2\repository\com\github\andrestubbe\FastCore\0.1.0\FastCore-0.1.0.jar;%USERPROFILE%\.m2\repository\com\github\andrestubbe\fastcore\0.1.0\fastcore-0.1.0.jar" faststt.demo.Demo
 cd ..\..
 pause

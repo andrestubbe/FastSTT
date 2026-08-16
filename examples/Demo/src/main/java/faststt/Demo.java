@@ -93,7 +93,7 @@ public class Demo {
             System.out.println("⏱️  Processing Time: " + durationMs + " ms");
             System.out.println("=========================================");
         } else if (!forceDummy && isMicrophoneAvailable()) {
-            System.out.println("\n[2/3] Live Microphone Audio Mode active.");
+            System.out.println("[2/3] Live Microphone Audio Mode active.");
             Scanner scanner = new Scanner(System.in);
 
             while (true) {

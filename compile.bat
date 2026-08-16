@@ -23,6 +23,16 @@ if not defined VS_PATH (
     exit /b 1
 )
 
+if not defined JAVA_HOME (
+    if exist "C:\Program Files\Java\jdk-25.0.3" (
+        set "JAVA_HOME=C:\Program Files\Java\jdk-25.0.3"
+    ) else if exist "C:\Program Files\Java\jdk-21" (
+        set "JAVA_HOME=C:\Program Files\Java\jdk-21"
+    ) else if exist "C:\Program Files\Java\jdk-17" (
+        set "JAVA_HOME=C:\Program Files\Java\jdk-17"
+    )
+)
+
 @call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64 > nul
 
 if not exist "build" mkdir build > nul 2>&1

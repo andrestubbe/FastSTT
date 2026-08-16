@@ -23,20 +23,6 @@ if not defined VS_PATH (
     exit /b 1
 )
 
-echo Found Visual Studio at: %VS_PATH%
-
-if not defined JAVA_HOME (
-    if exist "C:\Program Files\Java\jdk-25.0.3" (
-        set "JAVA_HOME=C:\Program Files\Java\jdk-25.0.3"
-    ) else if exist "C:\Program Files\Java\jdk-21" (
-        set "JAVA_HOME=C:\Program Files\Java\jdk-21"
-    ) else if exist "C:\Program Files\Java\jdk-17" (
-        set "JAVA_HOME=C:\Program Files\Java\jdk-17"
-    )
-)
-
-echo Using JAVA_HOME: %JAVA_HOME%
-
 @call "%VS_PATH%\VC\Auxiliary\Build\vcvarsall.bat" x64 > nul
 
 if not exist "build" mkdir build > nul 2>&1

@@ -204,10 +204,24 @@ public class Demo {
                                     for (String s : sentences) {
                                         String sentence = s.trim();
                                         String key = sentence.replaceAll("[^a-zA-Z0-9äöüÄÖÜß]", "").toLowerCase();
-                                        if (key.length() >= 4 && !printedSentences.contains(key)) {
-                                            printedSentences.add(key);
-                                            System.out.print(sentence + " ");
-                                            System.out.flush();
+                                        if (key.length() >= 5) {
+                                            boolean isDuplicate = false;
+                                            synchronized (printedSentences) {
+                                                for (String existing : printedSentences) {
+                                                    if (existing.contains(key) || key.contains(existing)) {
+                                                        isDuplicate = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if (!isDuplicate) {
+                                                    printedSentences.add(key);
+                                                }
+                                            }
+
+                                            if (!isDuplicate) {
+                                                System.out.print(sentence + " ");
+                                                System.out.flush();
+                                            }
                                         }
                                     }
                                 }

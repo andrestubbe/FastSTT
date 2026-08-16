@@ -169,14 +169,13 @@ public class Demo {
             });
             captureThread.start();
 
-            // Non-Blocking Live Streaming Thread (Normalized Sentence Key Deduplication)
-            final java.util.Set<String> printedKeys = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
-            final int windowBytes = (int) (5.0 * 16000 * 2); // 5.0-second sliding window
+            // True Real-Time Word-by-Word Streaming Thread
+            final int[] lastLength = {0};
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(600); // 600ms check interval
+                        Thread.sleep(150); // Fast 150ms real-time refresh rate!
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -184,47 +183,17 @@ public class Demo {
                             currentPcm = out.toByteArray();
                         }
 
-                        if (currentPcm.length >= 16000) { // At least 0.5s audio
-                            byte[] windowPcm = currentPcm.length > windowBytes
-                                    ? java.util.Arrays.copyOfRange(currentPcm, currentPcm.length - windowBytes, currentPcm.length)
-                                    : currentPcm;
-
-                            // FastSharedMemory Zero-Copy Live Stream Handoff
-                            String text;
-                            try (fastsharedmemory.SharedMemory shm = fastsharedmemory.SharedMemory.create("FastSttLiveMic", windowPcm.length)) {
-                                fastpointer.Pointer ptr = shm.pointer();
-                                for (int k = 0; k < windowPcm.length; k++) {
-                                    ptr.setByte(k, windowPcm[k]);
-                                }
-                                text = stt.transcribeFromMemoryAddress(shm.address(), windowPcm.length);
-                            } catch (Exception e) {
-                                text = stt.transcribe(windowPcm);
-                            }
-
+                        if (currentPcm.length >= 8000) { // At least 250ms audio
+                            // Stream full cumulative audio to capture ALL text without drops
+                            String text = stt.transcribe(currentPcm);
                             if (text != null && !text.trim().isEmpty()) {
-                                String[] sentences = text.trim().split("(?<=[.!?\\n])\\s+");
-                                for (int i = 0; i < sentences.length - 1; i++) {
-                                    String s = sentences[i].trim();
-                                    String key = s.replaceAll("[^a-zA-Z0-9äöüÄÖÜß]", "").toLowerCase();
-                                    if (key.length() >= 5) {
-                                        boolean isDuplicate = false;
-                                        synchronized (printedKeys) {
-                                            for (String existing : printedKeys) {
-                                                if (existing.contains(key) || key.contains(existing)) {
-                                                    isDuplicate = true;
-                                                    break;
-                                                }
-                                            }
-                                            if (!isDuplicate) {
-                                                printedKeys.add(key);
-                                            }
-                                        }
-
-                                        if (!isDuplicate) {
-                                            System.out.println(s);
-                                            System.out.flush();
-                                        }
-                                    }
+                                String cleanText = text.trim();
+                                if (cleanText.length() > lastLength[0]) {
+                                    // Print new incoming words dynamically in real time
+                                    String newChunk = cleanText.substring(lastLength[0]);
+                                    System.out.print(newChunk);
+                                    System.out.flush();
+                                    lastLength[0] = cleanText.length();
                                 }
                             }
                         }

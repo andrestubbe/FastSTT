@@ -185,11 +185,22 @@ public class Demo {
                         }
 
                         if (currentPcm.length >= 16000) { // At least 0.5s audio
-                            byte[] windowPcm = currentPcm.length > windowBytes 
-                                ? java.util.Arrays.copyOfRange(currentPcm, currentPcm.length - windowBytes, currentPcm.length) 
-                                : currentPcm;
+                            byte[] windowPcm = currentPcm.length > windowBytes
+                                    ? java.util.Arrays.copyOfRange(currentPcm, currentPcm.length - windowBytes, currentPcm.length)
+                                    : currentPcm;
 
-                            String text = stt.transcribe(windowPcm);
+                            // FastSharedMemory Zero-Copy Live Stream Handoff
+                            String text;
+                            try (fastsharedmemory.SharedMemory shm = fastsharedmemory.SharedMemory.create("FastSttLiveMic", windowPcm.length)) {
+                                fastpointer.Pointer ptr = shm.pointer();
+                                for (int k = 0; k < windowPcm.length; k++) {
+                                    ptr.setByte(k, windowPcm[k]);
+                                }
+                                text = stt.transcribeFromMemoryAddress(shm.address(), windowPcm.length);
+                            } catch (Exception e) {
+                                text = stt.transcribe(windowPcm);
+                            }
+
                             if (text != null && !text.trim().isEmpty()) {
                                 String[] sentences = text.trim().split("(?<=[.!?\\n])\\s+");
                                 for (int i = 0; i < sentences.length - 1; i++) {
@@ -217,7 +228,8 @@ public class Demo {
                                 }
                             }
                         }
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                 }
             });
             previewThread.start();
@@ -229,10 +241,17 @@ public class Demo {
             try {
                 line.stop();
                 line.close();
-            } catch (Throwable ignored) {}
+            } catch (Throwable ignored) {
+            }
 
-            try { captureThread.join(500); } catch (Exception ignored) {}
-            try { previewThread.join(500); } catch (Exception ignored) {}
+            try {
+                captureThread.join(500);
+            } catch (Exception ignored) {
+            }
+            try {
+                previewThread.join(500);
+            } catch (Exception ignored) {
+            }
 
             return out.toByteArray();
         } catch (Exception e) {

@@ -16,7 +16,7 @@ public class Demo {
         System.out.println("   FastSTT — Live Microphone STT Demo   ");
         System.out.println("=========================================");
 
-        String modelType = "tiny";
+        String modelType = "small";
         String language = "auto";
         String elevenLabsKey = System.getenv("ELEVENLABS_API_KEY");
         File inputWavFile = null;

@@ -7,7 +7,7 @@ import fastpointer.Pointer;
 public class ZeroCopySttDemo {
     public static void main(String[] args) {
         System.out.println("==================================================");
-        System.out.println("⚡ FastSTT & FastSharedMemory Zero-Copy Audio Demo");
+        System.out.println("[FastSTT] FastSharedMemory Zero-Copy Audio Demo");
         System.out.println("==================================================");
 
         // Simulate 2 seconds of 16kHz 16-bit mono PCM audio (64,000 bytes)
@@ -42,9 +42,9 @@ public class ZeroCopySttDemo {
             long genTime = System.currentTimeMillis() - genStart;
 
             System.out.println("\n==================================================");
-            System.out.println("🎉 Zero-Copy STT Result: \"" + result + "\"");
-            System.out.printf("⚡ Audio Processing & Transcribe Time: %d ms\n", genTime);
-            System.out.printf("⚡ Memory Address IPC Transfer Latency: %d ns (Zero-Copy)\n", nsLatency);
+            System.out.println("[SUCCESS] Zero-Copy STT Result: \"" + result + "\"");
+            System.out.printf("[METRICS] Audio Processing & Transcribe Time: %d ms\n", genTime);
+            System.out.printf("[METRICS] Memory Address IPC Transfer Latency: %d ns (Zero-Copy)\n", nsLatency);
             System.out.println("==================================================");
         } catch (Exception e) {
             System.out.println("Zero-Copy STT Demo Error: " + e.getMessage());

@@ -1,6 +1,7 @@
 @echo off
+chcp 65001 > nul
 echo ==================================================
-echo ⚡ FastSTT & FastSharedMemory Zero-Copy Demo
+echo [FastSTT] FastSharedMemory Zero-Copy Audio Demo
 echo ==================================================
 echo.
 echo Launching Zero-Copy Shared Memory Audio Transcription...

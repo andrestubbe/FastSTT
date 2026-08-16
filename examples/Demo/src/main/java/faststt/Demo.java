@@ -169,15 +169,14 @@ public class Demo {
             });
             captureThread.start();
 
-            // Progressive Line-by-Line Real-Time Live Streaming Thread
-            final java.util.Set<String> completedSentences = java.util.Collections.synchronizedSet(new java.util.HashSet<>());
-            final int windowBytes = (int) (6.0 * 16000 * 2); // 6.0s sliding window
-            final String[] currentLivePartial = {""};
+            // Continuous Cumulative Word-by-Word Live Transcript Thread
+            final StringBuilder accumulatedTranscript = new StringBuilder();
+            final int[] lastPrintedIndex = {0};
 
             Thread previewThread = new Thread(() -> {
                 while (recording[0]) {
                     try {
-                        Thread.sleep(120); // Fast 120ms real-time refresh rate
+                        Thread.sleep(250); // Refresh every 250ms
                         if (!recording[0]) break;
 
                         byte[] currentPcm;
@@ -186,38 +185,21 @@ public class Demo {
                         }
 
                         if (currentPcm.length >= 8000) { // At least 250ms audio
-                            byte[] windowPcm = currentPcm.length > windowBytes
-                                    ? java.util.Arrays.copyOfRange(currentPcm, currentPcm.length - windowBytes, currentPcm.length)
-                                    : currentPcm;
-
-                            String text = stt.transcribe(windowPcm);
+                            String text = stt.transcribe(currentPcm);
                             if (text != null && !text.trim().isEmpty()) {
                                 String cleanText = text.trim()
                                         .replace("[BLANK_AUDIO]", "")
                                         .replaceAll("\\s+", " ")
                                         .trim();
 
-                                if (!cleanText.isEmpty()) {
-                                    String[] sentences = cleanText.split("(?<=[.!?\\n])\\s+");
-                                    for (int i = 0; i < sentences.length - 1; i++) {
-                                        String sentence = sentences[i].trim();
-                                        String key = sentence.replaceAll("[^a-zA-Z0-9äöüÄÖÜß]", "").toLowerCase();
-                                        if (key.length() >= 4 && !completedSentences.contains(key)) {
-                                            completedSentences.add(key);
-                                            // Print completed sentence persistently on its own line!
-                                            System.out.print("\r\033[K📝 " + sentence + "\n");
-                                            System.out.flush();
-                                            currentLivePartial[0] = "";
-                                        }
-                                    }
-
-                                    // Live preview of active uncompleted sentence on the current line
-                                    String activeSentence = sentences[sentences.length - 1].trim();
-                                    if (!activeSentence.isEmpty() && !activeSentence.equals(currentLivePartial[0])) {
-                                        System.out.print("\r\033[K🎙️ " + activeSentence);
-                                        System.out.flush();
-                                        currentLivePartial[0] = activeSentence;
-                                    }
+                                if (cleanText.length() > lastPrintedIndex[0]) {
+                                    // Print new incoming words persistently to terminal!
+                                    String newPart = cleanText.substring(lastPrintedIndex[0]);
+                                    System.out.print(newPart);
+                                    System.out.flush();
+                                    lastPrintedIndex[0] = cleanText.length();
+                                    accumulatedTranscript.setLength(0);
+                                    accumulatedTranscript.append(cleanText);
                                 }
                             }
                         }

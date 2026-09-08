@@ -12,6 +12,8 @@ Whisper.cpp and real-time Cloud streaming.**
 **FastSTT** provides professional-grade speech recognition with minimal latency. It unified local high-performance
 processing (Whisper) with lightning-fast cloud backends (Deepgram/OpenAI) under a single Java API.
 
+Watch Demo (YouTube) | Watch JMH Benchmark (YouTube)
+
 [![FastKeyboard Showcase](docs/screenshot.png)](https://www.youtube.com/watch?v=BZsqQl7WqWk)
 
 ---

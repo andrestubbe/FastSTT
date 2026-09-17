@@ -20,11 +20,34 @@ Watch Demo (YouTube) | Watch JMH Benchmark (YouTube)
 
 ## Table of Contents
 
+- [Why FastSTT?](#why-faststt)
 - [Features](#features)
 - [Performance Benchmarks](#performance-benchmarks)
 - [Installation](#installation)
 - [Try the Installer](#try-the-installer)
 - [License](#license)
+
+---
+
+## Why FastSTT?
+
+Integrating speech-to-text into Java services commonly forces developers between high-latency cloud APIs or heavy, clunky process wrappers:
+
+* **Disk IPC Bottlenecks:** Naive Java Whisper bridges serialize audio chunks to temporary `.wav` files on disk before spawning CLI processes, introducing 20–50 ms of disk I/O overhead per chunk.
+* **Heavy Framework Overhead:** Java bindings for Vosk or Sphinx carry massive legacy dependencies, complex JNI bridge layers, and high memory footprints.
+* **Lack of Zero-Copy Pipeline:** Converting live microphone PCM streams across Java heap buffers to native inference contexts creates GC pressure and cache thrashing.
+* **Inflexible Hybrid Routing:** Cloud-only speech APIs introduce latency and privacy liabilities, while pure-offline solutions cannot dynamically fall back to cloud models when accuracy demands it.
+
+FastSTT resolves this by compiling whisper.cpp to a slim native JNI engine with AVX2 SIMD acceleration, supporting zero-copy shared memory IPC (`FastSharedMemory`) down to 3.4 microseconds handoff latency.
+
+| Feature | Java Sound + CLI Subprocess | Vosk Java API | Cloud REST API | FastSTT |
+| :--- | :--- | :--- | :--- | :--- |
+| **Audio Handoff** | Disk WAV File (~20 ms) | Byte array copy | HTTP multipart upload | Zero-Copy Shared Memory (3.4 µs) |
+| **Local Inference** | External whisper.exe | Kaldi/Vosk C++ JNI | None (Remote cloud) | whisper.cpp JNI + AVX2 SIMD |
+| **Latency** | 500–1200 ms | 200–500 ms | 300–800 ms (Network) | Sub-110 ms (Local Whisper) |
+| **Hybrid Fallback** | Manual shell scripting | None | None | Unified Local + Cloud (Deepgram/OpenAI) |
+| **Offline Privacy** | Yes (External tool) | Yes | No (Cloud transfer) | 100% Offline Local Mode |
+| **Dependencies** | External CLI binary | Heavy shared libraries | HTTP client + JSON parser | Slim Native DLL / So (FastCore) |
 
 ---
 

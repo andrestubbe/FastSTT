@@ -1,14 +1,41 @@
 @echo off
-echo Building Main Project...
-call compile.bat
-call mvn clean package -DskipTests -q
+setlocal
+chcp 65001 > nul
+cd /d "%~dp0"
 
-echo Building Benchmark Uber-JAR...
+echo ===================================================
+echo  Building FastSTT Native & Main Project
+echo ===================================================
+call compile.bat
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Native build failed!
+    pause
+    exit /b %ERRORLEVEL%
+)
+
+call mvn clean install -DskipTests -q
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] FastSTT install failed!
+    pause
+    exit /b %ERRORLEVEL%
+)
+
+echo ===================================================
+echo  Building JMH Benchmark Uber-JAR
+echo ===================================================
 cd examples\Benchmark
 call mvn clean package -DskipTests -q
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Benchmark build failed!
+    cd ..\..
+    pause
+    exit /b %ERRORLEVEL%
+)
 
-echo Running JMH Benchmarks...
-java -cp "target\benchmarks.jar;..\..\target\FastSTT-0.1.2.jar;%USERPROFILE%\.m2\repository\com\github\andrestubbe\FastCore\0.1.0\FastCore-0.1.0.jar;%USERPROFILE%\.m2\repository\com\github\andrestubbe\fastcore\0.1.0\fastcore-0.1.0.jar" org.openjdk.jmh.Main -f 1 -i 2 -wi 1 -w 1s -r 1s
+echo ===================================================
+echo  Running JMH Microbenchmarks for FastSTT
+echo ===================================================
+java --add-opens=java.base/jdk.internal.misc=ALL-UNNAMED --add-exports=java.base/jdk.internal.misc=ALL-UNNAMED -jar target\benchmarks.jar -jvmArgs "-Xmx4g"
 
 cd ..\..
 pause

@@ -1,5 +1,9 @@
 # TODO
 
+- [ ] **Windows STT einbauen**: Windows On-Device Speech Recognition (WinAppSDK / Windows 11 AI SpeechRecognitionModel / SAPI / WinRT) als natives Offline-Backend in FastSTT integrieren.
+
+---
+
 in win11 gibt es voice access....
 
 kann ich das STT fr FastJava hooken?
